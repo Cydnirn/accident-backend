@@ -50,7 +50,7 @@ var site = new Site
     Description = "Primary offshore drilling rig"
 };
 var createdSite = await backend.Repository.Sites.AddAsync(site);
-
+```
 ## Connection String Examples
 ### SQLite File Database
 ```

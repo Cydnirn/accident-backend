@@ -28,81 +28,21 @@ The project requires:
 ## Usage
 ### 1. Basic Setup (Console Application)
 ```csharp
-using AccidentBackend.Data;
+using AccidentBackend;
 // Create the database context
 var connectionString = "Data Source=accidents.db";
 var dbContext = DbContextConfiguration.CreateDbContext(connectionString);
 // Initialize the database
 await dbContext.Database.EnsureCreatedAsync();
 // Create the backend service
-var backend = new AccidentBackend.AccidentBackend(dbContext);
+var backend = new AccidentBackend.CreateInstance(dbContext);
 await backend.InitializeDatabaseAsync();
 ```
-### 2. Dependency Injection Setup (ASP.NET Core, Worker Service)
+### 2. Creating Records
 ```csharp
-using AccidentBackend.Data;
-using Microsoft.Extensions.DependencyInjection;
-var services = new ServiceCollection();
-// Add the database context
-services.AddAccidentDatabase("Data Source=accidents.db");
-// Add logging
-services.AddLogging();
-// Add the backend service
-services.AddScoped<AccidentBackend.AccidentBackend>();
-var serviceProvider = services.BuildServiceProvider();
-```
-### 3. Creating Records
-```csharp
-using AccidentBackend.Models;
-// Create a site
-var site = new Site
-{
-    Name = "Oil Rig Alpha",
-    SiteCode = "ORA-001",
-    Location = "North Sea",
-    SiteType = "Oil Rig",
-    ContactNumber = "+44-123-456-7890"
-};
-await dbContext.Sites.AddAsync(site);
-await dbContext.SaveChangesAsync();
-// Create a worker
-var worker = new Worker
-{
-    EmployeeNumber = "EMP-12345",
-    FirstName = "John",
-    LastName = "Doe",
-    Email = "john.doe@example.com",
-    CurrentSiteId = site.Id,
-    HireDate = DateTime.Now.AddYears(-5),
-    IsContractor = false
-};
-await dbContext.Workers.AddAsync(worker);
-await dbContext.SaveChangesAsync();
-// Create an accident
-var accident = new Accident
-{
-    AccidentNumber = "AR-2026-0001",
-    SiteId = site.Id,
-    OccurredAt = DateTime.Now.AddHours(-2),
-    ReportedByWorkerId = worker.Id,
-    SeverityLevel = 3,
-    IsFatal = false,
-    Description = "Worker slipped on wet surface near drilling platform",
-    Status = "Under Investigation"
-};
-await dbContext.Accidents.AddAsync(accident);
-await dbContext.SaveChangesAsync();
-// Add accident participant
-var participant = new AccidentParticipant
-{
-    AccidentId = accident.Id,
-    WorkerId = worker.Id,
-    Role = "Injured Party",
-    Injured = true,
-    Notes = "Minor injuries to left ankle"
-};
-await dbContext.AccidentParticipants.AddAsync(participant);
-await dbContext.SaveChangesAsync();
+var backend = new AccidentBackend.CreateInstance(dbContext);
+// Create a new site
+await backend.Repository.
 ```
 ### 4. Querying Data
 ```csharp

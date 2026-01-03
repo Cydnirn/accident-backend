@@ -6,48 +6,27 @@ using System.Linq;
 using System.Threading.Tasks;
 using Data;
 using Models;
-using Microsoft.EntityFrameworkCore;
+using Repository;
 using Microsoft.Extensions.Logging;
 
 public class AccidentBackend
 {
+    private readonly IUnitOfWork _unitOfWork;
     private readonly AccidentDbContext _dbContext;
     private readonly ILogger<AccidentBackend>? _logger;
+    private static AccidentBackend? _instance = null;
+    public IUnitOfWork Repository => _unitOfWork;
 
-    public AccidentBackend(AccidentDbContext dbContext, ILogger<AccidentBackend>? logger = null)
+    private AccidentBackend(AccidentDbContext dbContext, ILogger<AccidentBackend>? logger = null)
     {
         _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+        _unitOfWork = new UnitOfWork(dbContext);
         _logger = logger;
     }
 
-    public void ProcessAccident()
+    public static AccidentBackend CreateInstance(AccidentDbContext dbContext, ILogger<AccidentBackend>? logger = null)
     {
-        _logger?.LogInformation("Processing accident data...");
-        Console.WriteLine("Processing accident data...");
-    }
-
-    /// <summary>
-    /// Example method to create a new accident record
-    /// </summary>
-    public async Task<Accident> CreateAccidentAsync(Accident accident)
-    {
-        _dbContext.Accidents.Add(accident);
-        await _dbContext.SaveChangesAsync();
-        _logger?.LogInformation("Created accident with ID: {AccidentId}", accident.Id);
-        return accident;
-    }
-
-    /// <summary>
-    /// Example method to get all accidents for a site
-    /// </summary>
-    public async Task<List<Accident>> GetAccidentsBySiteAsync(int siteId)
-    {
-        return await _dbContext.Accidents
-            .Where(a => a.SiteId == siteId)
-            .Include(a => a.Site)
-            .Include(a => a.ReportedByWorker)
-            .Include(a => a.Participants)
-            .ToListAsync();
+        return _instance != null ? _instance : new AccidentBackend(dbContext, logger);
     }
 
     /// <summary>

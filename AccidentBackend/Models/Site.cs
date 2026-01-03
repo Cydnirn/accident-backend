@@ -12,10 +12,12 @@ namespace AccidentBackend.Models
         public string Name { get; set; } = string.Empty;
         [MaxLength(50)]
         public string? SiteCode { get; set; }
-        [MaxLength(400)]
-        public string? Location { get; set; }
+        [MaxLength(50)]
+        public double? Latitude { get; set; }
+        [MaxLength(50)]
+        public double? Longitude { get; set; }
         [MaxLength(100)]
-        public string? SiteType { get; set; }
+        public string? Type { get; set; }
         [MaxLength(50)]
         public string? ContactNumber { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;

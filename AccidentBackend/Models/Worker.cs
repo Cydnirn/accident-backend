@@ -8,11 +8,12 @@ namespace AccidentBackend.Models
     {
         [Key]
         public int Id { get; set; }
-        [MaxLength(50)]
-        public string? EmployeeNumber { get; set; }
-        [MaxLength(120)]
+        [MaxLength(200)]
+        [Column(TypeName = "varchar(200) UNIQUE")]
+        public string? EmployeeId { get; set; }
+        [MaxLength(200)]
         public string? FirstName { get; set; }
-        [MaxLength(120)]
+        [MaxLength(200)]
         public string? LastName { get; set; }
         public DateTime? Dob { get; set; }
         public DateTime? HireDate { get; set; }

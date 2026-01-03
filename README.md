@@ -42,52 +42,15 @@ await backend.InitializeDatabaseAsync();
 ```csharp
 var backend = new AccidentBackend.CreateInstance(dbContext);
 // Create a new site
-await backend.Repository.
-```
-### 4. Querying Data
-```csharp
-using Microsoft.EntityFrameworkCore;
-// Get all accidents for a specific site
-var siteAccidents = await dbContext.Accidents
-    .Where(a => a.SiteId == siteId)
-    .Include(a => a.Site)
-    .Include(a => a.ReportedByWorker)
-    .Include(a => a.Participants)
-        .ThenInclude(p => p.Worker)
-    .ToListAsync();
-// Complex query with filtering
-var severeAccidents = await dbContext.Accidents
-    .Where(a => a.SeverityLevel >= 4)
-    .Include(a => a.Site)
-    .Include(a => a.Participants)
-        .ThenInclude(p => p.Worker)
-    .Include(a => a.Witnesses)
-    .Include(a => a.ActionsTaken)
-    .OrderByDescending(a => a.OccurredAt)
-    .ToListAsync();
-// Get accident statistics
-var accidentCount = await dbContext.Accidents
-    .Where(a => a.OccurredAt >= DateTime.Now.AddMonths(-1))
-    .CountAsync();
-var fatalAccidents = await dbContext.Accidents
-    .Where(a => a.IsFatal)
-    .CountAsync();
-```
-### 5. Using the Backend Service
-```csharp
-// Create accident using the backend service
-var accident = new Accident
+var site = new Site
 {
-    AccidentNumber = "AR-2026-0002",
-    SiteId = siteId,
-    OccurredAt = DateTime.Now,
-    SeverityLevel = 2,
-    Description = "Equipment malfunction"
+    SiteCode = "OR-001",
+    Name = "Offshore Rig 1",
+    Location = "Gulf of Mexico",
+    Description = "Primary offshore drilling rig"
 };
-var createdAccident = await backend.CreateAccidentAsync(accident);
-// Get accidents by site
-var accidents = await backend.GetAccidentsBySiteAsync(siteId);
-```
+var createdSite = await backend.Repository.Sites.AddAsync(site);
+
 ## Connection String Examples
 ### SQLite File Database
 ```
@@ -164,30 +127,4 @@ Automatic timestamps using SQLite functions:
 - Delete behaviors are carefully configured to maintain referential integrity
 - Foreign key relationships use nullable integers where appropriate
 - The Accident entity uses `long` for Id to support large numbers of records
-## Example Project Structure
-```
-AccidentBackend/
-├── Models/
-│   ├── Accident.cs
-│   ├── AccidentCause.cs
-│   ├── AccidentEquipment.cs
-│   ├── AccidentParticipant.cs
-│   ├── ActionTaken.cs
-│   ├── Attachment.cs
-│   ├── Department.cs
-│   ├── HazardType.cs
-│   ├── SafetyEquipment.cs
-│   ├── Shift.cs
-│   ├── Site.cs
-│   ├── Witness.cs
-│   └── Worker.cs
-├── Data/
-│   ├── AccidentDbContext.cs
-│   └── DbContextConfiguration.cs
-├── AccidentBackend.cs
-└── README.md
-```
-## Support
-For issues or questions, refer to:
-- Entity Framework Core documentation: https://docs.microsoft.com/ef/core/
-- SQLite documentation: https://www.sqlite.org/docs.html
+

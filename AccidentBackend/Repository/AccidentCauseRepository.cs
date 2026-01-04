@@ -1,4 +1,4 @@
-using System.Threading.Tasks;
+using AccidentBackend.Interface;
 using AccidentBackend.Data;
 using AccidentBackend.Models;
 using Microsoft.EntityFrameworkCore;

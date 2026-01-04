@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AccidentBackend.Models;
 
-namespace AccidentBackend.Repository
+namespace AccidentBackend.Interface
 {
     public interface ISiteRepository : IRepository<Site>
     {

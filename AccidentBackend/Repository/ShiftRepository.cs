@@ -1,4 +1,5 @@
 using AccidentBackend.Data;
+using AccidentBackend.Interface;
 using AccidentBackend.Models;
 
 namespace AccidentBackend.Repository

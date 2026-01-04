@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace AccidentBackend.Repository;
+namespace AccidentBackend.Interface;
 
 /// <summary>
 /// Unit of Work pattern to coordinate repository operations and transactions

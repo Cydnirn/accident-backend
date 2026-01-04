@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using AccidentBackend.Models;
 
-namespace AccidentBackend.Repository
+namespace AccidentBackend.Interface
 {
     public interface IAccidentCauseRepository : IRepository<AccidentCause>
     {

@@ -1,5 +1,5 @@
 using AccidentBackend.Models;
-namespace AccidentBackend.Repository
+namespace AccidentBackend.Interface
 {
     public interface IAccidentRepository : IRepository<Accident>
     {

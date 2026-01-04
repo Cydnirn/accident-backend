@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using AccidentBackend.Data;
+using AccidentBackend.Interface;
 using AccidentBackend.Models;
 using Microsoft.EntityFrameworkCore;
 

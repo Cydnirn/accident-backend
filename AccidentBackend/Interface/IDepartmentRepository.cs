@@ -1,6 +1,6 @@
 using AccidentBackend.Models;
 using System.Threading.Tasks;
-namespace AccidentBackend.Repository{
+namespace AccidentBackend.Interface{
     public interface IDepartmentRepository : IRepository<Department>
     {
         Task<IEnumerable<Department>> GetDepartmentsWithWorkersAsync();

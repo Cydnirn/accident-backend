@@ -38,7 +38,7 @@ namespace AccidentBackend.Data
             });
             modelBuilder.Entity<Worker>(entity =>
             {
-                entity.HasIndex(e => e.EmployeeNumber).IsUnique();
+                entity.HasIndex(e => e.EmployeeId).IsUnique();
                 entity.HasOne(w => w.Department)
                     .WithMany(d => d.Workers)
                     .HasForeignKey(w => w.DepartmentId)

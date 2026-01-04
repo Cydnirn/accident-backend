@@ -1,4 +1,6 @@
-﻿namespace AccidentBackend;
+﻿using AccidentBackend.Interface;
+
+namespace AccidentBackend;
 
 using System;
 using System.Collections.Generic;

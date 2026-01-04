@@ -17,6 +17,7 @@ namespace AccidentBackend.Data
         public DbSet<SafetyEquipment> SafetyEquipments { get; set; }
         public DbSet<Accident> Accidents { get; set; }
         public DbSet<AccidentParticipant> AccidentParticipants { get; set; }
+        public DbSet<InjuryType> InjuryTypes { get; set; }
         public DbSet<AccidentEquipment> AccidentEquipments { get; set; }
         public DbSet<Witness> Witnesses { get; set; }
         public DbSet<ActionTaken> ActionsTaken { get; set; }
@@ -100,6 +101,14 @@ namespace AccidentBackend.Data
                     .WithMany(w => w.AccidentParticipations)
                     .HasForeignKey(ap => ap.WorkerId)
                     .OnDelete(DeleteBehavior.SetNull);
+                entity.HasOne(ap => ap.InjuryType)
+                    .WithMany(it => it.AccidentParticipants)
+                    .HasForeignKey(ap => ap.InjuryTypeId)
+                    .OnDelete(DeleteBehavior.SetNull);
+            });
+            modelBuilder.Entity<InjuryType>(entity =>
+            {
+                entity.HasIndex(e => e.Id).IsUnique();
             });
             modelBuilder.Entity<AccidentEquipment>(entity =>
             {

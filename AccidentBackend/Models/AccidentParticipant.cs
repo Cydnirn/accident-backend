@@ -14,10 +14,13 @@ namespace AccidentBackend.Models
         [MaxLength(100)]
         public string? Role { get; set; }
         public bool Injured { get; set; } = false;
+        [ForeignKey("InjuryType")]
         public int? InjuryTypeId { get; set; }
+        [MaxLength(500)]
         public string? Notes { get; set; }
         // Navigation properties
         public Accident Accident { get; set; } = null!;
         public Worker? Worker { get; set; }
+        public InjuryType? InjuryType { get; set; }
     }
 }
